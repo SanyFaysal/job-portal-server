@@ -6,10 +6,15 @@ app.use(express.json());
 app.use(cors());
 
 // import routes
-// const productRoute = require('./routes/product.route');
+const jobRoute = require('./routes/job.route');
+const userRoute = require('./routes/user.route');
+
 // routes
 app.get('/', (req, res) => {
   res.send('Route is working! YaY!');
 });
+
+app.use('/api/v1/jobs', jobRoute);
+app.use('/api/v1/user', userRoute);
 
 module.exports = app;
