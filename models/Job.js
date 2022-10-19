@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const validator = require('validator');
 const { ObjectId } = mongoose.Schema.Types;
 
@@ -12,14 +11,13 @@ const jobSchema = mongoose.Schema(
       lowercase: true,
       minLength: [3, 'Name is too small'],
     },
-    email: {
+    applyingEmail: {
       type: String,
       required: [true, 'Please provide an email'],
-      unique: true,
       lowercase: true,
       validate: [validator.isEmail, 'Please provide a valid email'],
     },
-    contactNumber: {
+    helplineNumber: {
       type: String,
       required: [true, 'Please provide a contact number'],
       validate: [
@@ -32,8 +30,16 @@ const jobSchema = mongoose.Schema(
       required: [true, 'Minimum description is required'],
     },
     compensation: {
-      type: String,
+      type: Number,
       required: [true, 'Please provide compensation'],
+    },
+    compensationCurrency: {
+      type: String,
+      default: 'USD',
+      enum: {
+        values: ['USD', 'BDT'],
+        message: "{VALUE} can't be currency",
+      },
     },
     requirement: {
       type: String,
@@ -64,6 +70,12 @@ const jobSchema = mongoose.Schema(
         ref: 'User',
       },
     },
+    applicants: [
+      {
+        type: ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   {
     timeStamps: true,
