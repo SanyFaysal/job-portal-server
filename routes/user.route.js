@@ -16,8 +16,12 @@ router
     userController.updateCandidateRole
   );
 
-router.route('/:role/:id').get(userController.getUserDetailsById);
+router
+  .route('/:role/:id')
+  .get(verifyToken, authorization('admin'), userController.getUserDetailsById);
 
-router.route('/:role').get(userController.getUsers);
+router
+  .route('/:role')
+  .get(verifyToken, authorization('admin'), userController.getUsers);
 
 module.exports = router;

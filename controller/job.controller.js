@@ -51,7 +51,24 @@ exports.getJobById = async (req, res) => {
 };
 exports.getJobs = async (req, res) => {
   try {
-    const jobs = await getJobsService();
+    const { sort, ...filter } = req.query;
+    const salaryRangeQuery = filter?.salary;
+    const sortJob = {};
+    if (salaryRangeQuery) {
+      const salaryRange = { salary: salaryRangeQuery };
+      const filterBySalaryStringify = JSON.stringify(salaryRange);
+      let filterBySalary = filterBySalaryStringify.replace(
+        /\b(lt|gt)\b/g,
+        (match) => `$${match}`
+      );
+      filterBySalary = JSON.parse(filterBySalary);
+      filter.salary = filterBySalary.salary;
+    }
+    if (sort) {
+      sortJob.sortBy = sort.split(',').join(' ');
+    }
+
+    const jobs = await getJobsService(filter, sortJob);
     res.status(200).json({
       status: 'Success',
       message: 'Successfully get all job',

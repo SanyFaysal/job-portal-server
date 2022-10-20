@@ -17,10 +17,10 @@ exports.getJobByIdService = async (id) => {
     .populate('applicants');
   return result;
 };
-exports.getJobsService = async () => {
-  const result = await Job.find({})
-    .populate('applicants')
-    .populate('postedBy.id');
+exports.getJobsService = async (filter, sortJob) => {
+  const result = await Job.find({}).where(filter).sort(sortJob.sortBy);
+  // .populate('applicants')
+  // .populate('postedBy.id');
   return result;
 };
 exports.getManagerJobService = async (managerId) => {

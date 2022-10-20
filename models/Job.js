@@ -57,6 +57,19 @@ const jobSchema = mongoose.Schema(
         message: "{VALUE} can't be a status",
       },
     },
+    jobType: {
+      type: String,
+      required: [true, 'Please provide job type'],
+      enum: {
+        values: ['remote', 'on-site'],
+        message: " Job type must be remote/ on-site. Can't be {VALUE}",
+      },
+    },
+    location: {
+      type: String,
+      lowercase: true,
+      required: [true, 'Please provide your job location'],
+    },
     postedBy: {
       name: {
         type: String,
