@@ -29,11 +29,11 @@ const jobSchema = mongoose.Schema(
       type: String,
       required: [true, 'Minimum description is required'],
     },
-    compensation: {
+    salary: {
       type: Number,
       required: [true, 'Please provide compensation'],
     },
-    compensationCurrency: {
+    currency: {
       type: String,
       default: 'USD',
       enum: {
@@ -60,15 +60,18 @@ const jobSchema = mongoose.Schema(
     postedBy: {
       name: {
         type: String,
-        required: [true, 'Provide the name who post this job'],
         lowercase: true,
         trim: true,
       },
       id: {
         type: ObjectId,
-        required: true,
+
         ref: 'User',
       },
+    },
+    dateline: {
+      type: Date,
+      required: [true, 'Please provide a dateline'],
     },
     applicants: [
       {

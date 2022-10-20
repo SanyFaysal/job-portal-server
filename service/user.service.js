@@ -5,12 +5,14 @@ exports.signupService = async (data) => {
   return result;
 };
 exports.findUserByEmailService = async (email) => {
-  const result = await User.findOne({ email });
+  const result = await User.findOne({ email }).populate('applications');
   return result;
 };
 
 exports.getUsersService = async (role) => {
-  const users = await User.find({ role }).select('-password');
+  const users = await User.find({ role })
+    .select('-password')
+    .populate('applications');
   return users;
 };
 exports.getUserDetailsByIdService = async (role, id) => {

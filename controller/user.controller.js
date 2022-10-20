@@ -11,10 +11,11 @@ exports.signup = async (req, res) => {
   try {
     const data = req.body;
     const result = await signupService(data);
-
+    const token = generateToken(result);
     res.status(200).json({
       status: 'Success',
       message: 'Signup successful',
+      token,
     });
   } catch (error) {
     res.status(400).json({

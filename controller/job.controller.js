@@ -5,13 +5,15 @@ const {
   updateJobService,
   getManagerJobService,
   applyJobService,
+  getManagerJobDetailsByIdService,
+  getManagerJobByIdService,
 } = require('../service/job.service');
 
 exports.createJob = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
-    const result = await createJobService(data);
+    const hiringManager = req.user;
+    const result = await createJobService(data, hiringManager);
     res.status(200).json({
       status: 'Success',
       message: 'Successfully create a job',
@@ -26,7 +28,7 @@ exports.createJob = async (req, res) => {
 };
 exports.getJobById = async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id.toString();
     const result = await getJobByIdService(id);
     if (!result) {
       return res.status(400).json({
@@ -50,7 +52,6 @@ exports.getJobById = async (req, res) => {
 exports.getJobs = async (req, res) => {
   try {
     const jobs = await getJobsService();
-
     res.status(200).json({
       status: 'Success',
       message: 'Successfully get all job',
@@ -79,10 +80,16 @@ exports.getManagerJob = async (req, res) => {
     });
   }
 };
-exports.getManagerJobDetailsById = async (req, res) => {
+exports.getManagerJobById = async (req, res) => {
   try {
-    const { email, id } = req.user.email;
-    const results = await getManagerJobDetailsByIdService(email);
+    const { _id: managerId } = req.user;
+    const { id: jobId } = req.params;
+    const results = await getManagerJobByIdService(managerId, jobId);
+    res.status(200).json({
+      status: 'Success',
+      message: 'Successfully get details',
+      results,
+    });
   } catch (error) {
     res.status(400).json({
       status: 'failed',
@@ -113,7 +120,6 @@ exports.applyJob = async (req, res) => {
   try {
     const { id: jobId } = req.params;
     const candidateId = req.user._id;
-    // console.log(jobId, candidateId);
     const result = await applyJobService(jobId, candidateId);
     console.log(result);
     res.status(200).json({

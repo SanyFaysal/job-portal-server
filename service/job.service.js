@@ -1,25 +1,39 @@
 const Job = require('../models/Job');
 const mongoose = require('mongoose');
-exports.createJobService = async (data) => {
+const User = require('../models/User');
+
+exports.createJobService = async (data, hiringManager) => {
+  const { _id, name } = hiringManager;
+  data.postedBy = {
+    id: _id,
+    name: name,
+  };
   const result = await Job.create(data);
-  return result;
+  return { result };
 };
 exports.getJobByIdService = async (id) => {
-  const result = await Job.find({ _id: id });
+  const result = await Job.find({ _id: id })
+    .populate('postedBy.id')
+    .populate('applicants');
   return result;
 };
 exports.getJobsService = async () => {
   const result = await Job.find({})
-    .populate('applicants.id')
+    .populate('applicants')
     .populate('postedBy.id');
   return result;
 };
 exports.getManagerJobService = async (managerId) => {
-  const result = await Job.find({ 'postedBy.id': managerId });
+  const result = await Job.find({ 'postedBy.id': managerId }).populate(
+    'applicants'
+  );
   return result;
 };
-exports.getManagerJobDetailsByIdService = async (id) => {
-  const result = await Job.find({ email });
+exports.getManagerJobByIdService = async (managerId, jobId) => {
+  const result = await Job.find({
+    _id: jobId,
+    'postedBy.id': managerId,
+  }).populate('applicants');
   return result;
 };
 exports.updateJobService = async (id, data) => {
@@ -27,10 +41,14 @@ exports.updateJobService = async (id, data) => {
   return result;
 };
 exports.applyJobService = async (jobId, candidateId) => {
-  const job = await Job.updateOne(
+  const updateJob = await Job.updateOne(
     { _id: jobId },
     { $push: { applicants: candidateId } }
   );
+  const updateCandidate = await User.updateOne(
+    { _id: candidateId },
+    { $push: { applications: jobId } }
+  );
 
-  return job;
+  return { updateJob, updateCandidate };
 };

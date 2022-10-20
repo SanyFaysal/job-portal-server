@@ -82,6 +82,12 @@ const userSchema = mongoose.Schema(
         message: "{VALUE} can't be a role",
       },
     },
+    applications: [
+      {
+        type: Object,
+        ref: 'Job',
+      },
+    ],
   },
   {
     timeStamps: true,
