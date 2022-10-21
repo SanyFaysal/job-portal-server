@@ -16,7 +16,6 @@ exports.verifyToken = async (req, res, next) => {
     );
     const user = await findUserByEmailService(decoded.email);
     req.user = user;
-
     next();
   } catch (error) {}
 };
