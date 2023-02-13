@@ -10,6 +10,15 @@ const { generateToken } = require('../utils/token');
 exports.signup = async (req, res) => {
   try {
     const data = req.body;
+    const { email } = data;
+    const isAvailableUser = await findUserByEmailService(email);
+    if (isAvailableUser) {
+      return res.status(404).json({
+        status: 'failed',
+        message: 'User already existed',
+      });
+    }
+    console.log(isAvailableUser);
     const result = await signupService(data);
     const token = generateToken(result);
     res.status(200).json({
@@ -45,24 +54,20 @@ exports.findUserByEmail = async (req, res) => {
     }
 
     const isValidPassword = user.comparePassword(password, user.password);
+    console.log('isValid ', isValidPassword);
     if (!isValidPassword) {
       return res.status(401).json({
         status: 'failed',
         error: 'Password not matched',
       });
     }
-    if (user.status !== 'active') {
-      return res.status(401).json({
-        status: 'failed',
-        error: 'you are not active yet',
-      });
-    }
+
     const token = generateToken(user);
-    const { password: pwd, ...other } = user.toObject();
+
     res.status(200).json({
       status: 'Success',
       message: 'Successfully logged in',
-      data: other,
+      data: user,
       token,
     });
   } catch (error) {
@@ -83,6 +88,7 @@ exports.getMe = async (req, res) => {
         message: 'Token is not verified',
       });
     }
+
     res.status(200).json({
       status: 'Success',
       message: 'successfully get data',

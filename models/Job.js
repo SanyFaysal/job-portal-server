@@ -17,7 +17,7 @@ const jobSchema = mongoose.Schema(
       lowercase: true,
       validate: [validator.isEmail, 'Please provide a valid email'],
     },
-    helplineNumber: {
+    contactNumber: {
       type: String,
       required: [true, 'Please provide a contact number'],
       validate: [
@@ -25,24 +25,17 @@ const jobSchema = mongoose.Schema(
         'Please provide a valid phone number',
       ],
     },
-    desc: {
+    jobDescription: {
       type: String,
       required: [true, 'Minimum description is required'],
     },
-    salary: {
+    salaryRange: {
       type: Number,
       required: [true, 'Please provide compensation'],
     },
-    currency: {
-      type: String,
-      default: 'USD',
-      enum: {
-        values: ['USD', 'BDT'],
-        message: "{VALUE} can't be currency",
-      },
-    },
-    requirement: {
-      type: String,
+
+    skills: {
+      type: Array,
       required: [true, 'Please provide job requirement'],
     },
     vacancy: {
@@ -57,11 +50,11 @@ const jobSchema = mongoose.Schema(
         message: "{VALUE} can't be a status",
       },
     },
-    jobType: {
+    employmentType: {
       type: String,
       required: [true, 'Please provide job type'],
       enum: {
-        values: ['remote', 'on-site'],
+        values: ['remote', 'on-site', 'hybrid'],
         message: " Job type must be remote/ on-site. Can't be {VALUE}",
       },
     },

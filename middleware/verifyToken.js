@@ -4,6 +4,7 @@ const { findUserByEmailService } = require('../service/user.service');
 exports.verifyToken = async (req, res, next) => {
   try {
     const token = req?.headers?.authorization?.split(' ')[1];
+
     if (!token) {
       return res.status(403).json({
         status: 'failed',
@@ -14,6 +15,7 @@ exports.verifyToken = async (req, res, next) => {
       token,
       process.env.TOKEN_SECRET
     );
+
     const user = await findUserByEmailService(decoded.email);
     req.user = user;
     next();
