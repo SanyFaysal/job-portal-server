@@ -6,10 +6,15 @@ exports.signupService = async (data) => {
 };
 exports.findUserByEmailService = async (email) => {
   const result = await User.findOne({ email })
-  .populate('applications');
+    .populate('applications');
   return result;
 };
-
+exports.registerUserService = async (id, data) => {
+  console.log(id);
+  const result = await User.updateOne({ _id: id }, { $set: data });
+  console.log(result);
+  return result;
+};
 exports.getUsersService = async (role) => {
   const users = await User.find({ role })
     .select('-password')

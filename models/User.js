@@ -38,10 +38,12 @@ const userSchema = mongoose.Schema(
       validate: [validator.isDate, 'Please provide a date'],
     },
     bio: String,
+    address: String,
+    city: String,
     pastExperience: {
       type: String,
     },
-    education: {
+    designation: {
       type: String,
     },
     status: {

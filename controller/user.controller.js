@@ -4,6 +4,7 @@ const {
   getUsersService,
   getUserDetailsByIdService,
   updateCandidateRoleService,
+  registerUserService,
 } = require('../service/user.service');
 const { generateToken } = require('../utils/token');
 
@@ -15,7 +16,7 @@ exports.signup = async (req, res) => {
     if (isAvailableUser) {
       return res.status(404).json({
         status: 'failed',
-        message: 'User already existed',
+        error: 'User already existed',
       });
     }
     console.log(isAvailableUser);
@@ -85,7 +86,7 @@ exports.getMe = async (req, res) => {
     if (!result) {
       return res.status(400).json({
         status: 'failed',
-        message: 'Token is not verified',
+        error: 'Token is not verified',
       });
     }
 
@@ -117,7 +118,25 @@ exports.getUsers = async (req, res) => {
     });
   }
 };
+exports.registerUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    const updateUser = await registerUserService(id, data);
 
+    res.status(200).json({
+      status: 'Success',
+      message: 'Successfully registered',
+      data: data,
+      response: updateUser,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      error: error.message,
+    });
+  }
+};
 exports.getUserDetailsById = async (req, res) => {
   try {
     const { role, id } = req.params;
@@ -125,7 +144,7 @@ exports.getUserDetailsById = async (req, res) => {
     if (!userDetails) {
       return res.status(400).json({
         status: 'failed',
-        message: `Couldn\'t find any ${role} with this id`,
+        error: `Couldn\'t find any ${role} with this id`,
       });
     }
     console.log(role, id);
@@ -149,7 +168,7 @@ exports.updateCandidateRole = async (req, res) => {
     if (!update.modifiedCount) {
       return res.status(400).json({
         status: 'failed',
-        message: `Couldn\'t find any ${role} with this id`,
+        error: `Couldn\'t find any ${role} with this id`,
       });
     }
     res.status(200).json({
