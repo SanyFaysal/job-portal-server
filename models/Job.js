@@ -71,7 +71,6 @@ const jobSchema = mongoose.Schema(
       },
       id: {
         type: ObjectId,
-
         ref: 'User',
       },
     },

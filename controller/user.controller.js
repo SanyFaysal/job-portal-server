@@ -122,6 +122,7 @@ exports.registerUser = async (req, res) => {
   try {
     const { id } = req.params;
     const data = req.body;
+
     const updateUser = await registerUserService(id, data);
 
     res.status(200).json({

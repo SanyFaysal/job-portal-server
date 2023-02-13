@@ -68,6 +68,14 @@ const userSchema = mongoose.Schema(
         ref: 'Job',
       },
     ],
+    company: {
+      companyCategory: String,
+      companyLocation: String,
+      companyName: String,
+      companyWebSite: String,
+      employeeRange: String,
+      roleInCompany: String,
+    }
   },
   {
     timeStamps: true,
