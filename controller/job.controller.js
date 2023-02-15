@@ -138,7 +138,7 @@ exports.applyJob = async (req, res) => {
     const { id: jobId } = req.params;
     const candidateId = req.user._id;
     const result = await applyJobService(jobId, candidateId);
-    console.log(result);
+
     res.status(200).json({
       status: 'Success',
       message: 'Applied successful',

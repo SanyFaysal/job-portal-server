@@ -7,8 +7,8 @@ const router = express.Router();
 
 router
   .route('/jobs')
-  .get(verifyToken, jobController.getJobs)
-  .post(verifyToken, authorization('hiring-manager'), jobController.createJob);
+  .get(jobController.getJobs)
+  .post(verifyToken, authorization('employee'), jobController.createJob);
 
 router
   .route('/jobs/:id/apply')
@@ -35,8 +35,8 @@ router
   );
 
 router
-  .route('/jobs/:id')
-  .get(verifyToken, authorization('candidate'), jobController.getJobById)
+  .route('/job/:id')
+  .get(jobController.getJobById)
   .patch(verifyToken, authorization('hiring-manager'), jobController.updateJob);
 
 module.exports = router;

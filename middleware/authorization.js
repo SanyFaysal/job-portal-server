@@ -8,7 +8,7 @@ exports.authorization = (...role) => {
       if (!role.includes(userRole)) {
         return res.status(403).json({
           status: 'failed',
-          message: 'You are not authorized',
+          error: 'You are not authorized',
         });
       }
 

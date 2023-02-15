@@ -12,7 +12,7 @@ exports.createJobService = async (data, hiringManager) => {
   return { result };
 };
 exports.getJobByIdService = async (id) => {
-  const result = await Job.find({ _id: id })
+  const result = await Job.findOne({ _id: id })
     .populate('postedBy.id')
     .populate('applicants');
   return result;

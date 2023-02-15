@@ -3,7 +3,7 @@ const Job = require('../models/Job');
 exports.checkApplyExpire = async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log(id);
+
     const findJob = await Job.findOne({ _id: id });
     const currentDate = new Date();
     const expireDate = findJob.dateline;

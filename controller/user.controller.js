@@ -19,7 +19,7 @@ exports.signup = async (req, res) => {
         error: 'User already existed',
       });
     }
-    console.log(isAvailableUser);
+
     const result = await signupService(data);
     const token = generateToken(result);
     res.status(200).json({
@@ -55,7 +55,7 @@ exports.findUserByEmail = async (req, res) => {
     }
 
     const isValidPassword = user.comparePassword(password, user.password);
-    console.log('isValid ', isValidPassword);
+
     if (!isValidPassword) {
       return res.status(401).json({
         status: 'failed',
@@ -148,7 +148,7 @@ exports.getUserDetailsById = async (req, res) => {
         error: `Couldn\'t find any ${role} with this id`,
       });
     }
-    console.log(role, id);
+
     res.status(200).json({
       status: 'Success',
       message: 'Successfully get all the data',
@@ -165,7 +165,7 @@ exports.updateCandidateRole = async (req, res) => {
   try {
     const { id } = req.params;
     const update = await updateCandidateRoleService(id);
-    console.log(update);
+
     if (!update.modifiedCount) {
       return res.status(400).json({
         status: 'failed',

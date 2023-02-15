@@ -29,8 +29,12 @@ const jobSchema = mongoose.Schema(
       type: String,
       required: [true, 'Minimum description is required'],
     },
+    workingTime: {
+      type: String,
+      required: [true, ' working time is required'],
+    },
     salaryRange: {
-      type: Number,
+      type: String,
       required: [true, 'Please provide compensation'],
     },
 
@@ -38,8 +42,16 @@ const jobSchema = mongoose.Schema(
       type: Array,
       required: [true, 'Please provide job requirement'],
     },
+    responsibilities: {
+      type: Array,
+      required: [true, 'Please provide job requirement'],
+    },
+    requirements: {
+      type: Array,
+      required: [true, 'Please provide job requirement'],
+    },
     vacancy: {
-      type: Number,
+      type: String,
       required: [true, 'Please provide your job vacancy number'],
     },
     status: {
@@ -76,8 +88,15 @@ const jobSchema = mongoose.Schema(
     },
     dateline: {
       type: Date,
+      min: [Date.now(), 'Dateline must be greater than the time of now'],
       required: [true, 'Please provide a dateline'],
     },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+      required: [true, 'Please provide a dateline'],
+    },
+
     applicants: [
       {
         type: ObjectId,
@@ -86,7 +105,7 @@ const jobSchema = mongoose.Schema(
     ],
   },
   {
-    timeStamps: true,
+    timeStamps: { createdAt: true, updatedAt: false }
   }
 );
 

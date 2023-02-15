@@ -7,11 +7,11 @@ exports.signupService = async (data) => {
 exports.findUserByEmailService = async (email) => {
   const result = await User.findOne({ email })
   // .populate('applications');
-  console.log(result);
+
   return result;
 };
 exports.registerUserService = async (id, data) => {
-  console.log({ id, data });
+
   const result = await User.updateOne({ _id: id }, { $set: data });
 
   return result;

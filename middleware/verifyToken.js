@@ -8,7 +8,7 @@ exports.verifyToken = async (req, res, next) => {
     if (!token) {
       return res.status(403).json({
         status: 'failed',
-        message: 'Token not found',
+        error: 'Token not found',
       });
     }
     const decoded = await promisify(jwt.verify)(
@@ -19,5 +19,5 @@ exports.verifyToken = async (req, res, next) => {
     const user = await findUserByEmailService(decoded.email);
     req.user = user;
     next();
-  } catch (error) {}
+  } catch (error) { }
 };
