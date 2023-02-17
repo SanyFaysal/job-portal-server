@@ -2,6 +2,7 @@ const express = require('express');
 const jobController = require('../controller/job.controller');
 const { authorization } = require('../middleware/authorization');
 const { checkApplyExpire } = require('../middleware/checkApplyExpire');
+const { checkIsOwner } = require('../middleware/checkIsOwner');
 const { verifyToken } = require('../middleware/verifyToken');
 const router = express.Router();
 
@@ -11,7 +12,7 @@ router
   .post(verifyToken, authorization('employee'), jobController.createJob);
 
 router
-  .route('/jobs/:id/apply')
+  .route('/job/apply/:id')
   .post(
     verifyToken,
     authorization('candidate'),
@@ -20,14 +21,14 @@ router
   );
 
 router
-  .route('/manager/jobs')
+  .route('/employee/jobs')
   .get(
     verifyToken,
-    authorization('hiring-manager'),
+    authorization('employee'),
     jobController.getManagerJob
   );
 router
-  .route('/manager/jobs/:id')
+  .route('/employee/jobs/:id')
   .get(
     verifyToken,
     authorization('hiring-manager'),
@@ -37,6 +38,7 @@ router
 router
   .route('/job/:id')
   .get(jobController.getJobById)
-  .patch(verifyToken, authorization('employee'), jobController.updateJob);
+  .patch(verifyToken, authorization('employee'), jobController.updateJob)
+  .delete(verifyToken, authorization('employee'), checkIsOwner, jobController.deleteJob)
 
 module.exports = router;

@@ -7,6 +7,7 @@ const {
   applyJobService,
   getManagerJobDetailsByIdService,
   getManagerJobByIdService,
+  deleteJobService,
 } = require('../service/job.service');
 
 exports.createJob = async (req, res) => {
@@ -83,8 +84,8 @@ exports.getJobs = async (req, res) => {
 };
 exports.getManagerJob = async (req, res) => {
   try {
-    const managerId = req.user._id;
-    const results = await getManagerJobService(managerId);
+    const employeeId = req.user._id;
+    const results = await getManagerJobService(employeeId);
     res.status(200).json({
       status: 'Success',
       message: 'Successfully get all of your job posts',
@@ -124,6 +125,21 @@ exports.updateJob = async (req, res) => {
       status: 'Success',
       message: 'Successfully get all job',
       data: jobs,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      error: error.message,
+    });
+  }
+};
+exports.deleteJob = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await deleteJobService(id);
+    res.status(200).json({
+      status: 'Success',
+      message: 'Delete successful',
     });
   } catch (error) {
     res.status(400).json({

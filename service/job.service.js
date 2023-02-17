@@ -23,8 +23,8 @@ exports.getJobsService = async (filter, sortJob) => {
     .populate('postedBy.id');
   return result;
 };
-exports.getManagerJobService = async (managerId) => {
-  const result = await Job.find({ 'postedBy.id': managerId }).populate(
+exports.getManagerJobService = async (employeeId) => {
+  const result = await Job.find({ 'postedBy.id': employeeId }).populate(
     'applicants'
   );
   return result;
@@ -38,6 +38,10 @@ exports.getManagerJobByIdService = async (managerId, jobId) => {
 };
 exports.updateJobService = async (id, data) => {
   const result = await Job.updateOne({ _id: id }, { $set: data });
+  return result;
+};
+exports.deleteJobService = async (id) => {
+  const result = await Job.deleteOne({ _id: id });
   return result;
 };
 exports.applyJobService = async (jobId, candidateId) => {
