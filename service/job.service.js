@@ -18,9 +18,9 @@ exports.getJobByIdService = async (id) => {
   return result;
 };
 exports.getJobsService = async (filter, sortJob) => {
-  const result = await Job.find({}).where(filter).sort(sortJob.sortBy);
-  // .populate('applicants')
-  // .populate('postedBy.id');
+  const result = await Job.find({}).where(filter).sort(sortJob.sortBy)
+    .populate('applicants')
+    .populate('postedBy.id');
   return result;
 };
 exports.getManagerJobService = async (managerId) => {

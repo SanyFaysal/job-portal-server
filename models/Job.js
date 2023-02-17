@@ -40,19 +40,24 @@ const jobSchema = mongoose.Schema(
 
     skills: {
       type: Array,
-      required: [true, 'Please provide job requirement'],
+      required: [true, 'Please provide job skills'],
     },
     responsibilities: {
       type: Array,
-      required: [true, 'Please provide job requirement'],
+      required: [true, 'Please provide job responsibilities'],
     },
     requirements: {
       type: Array,
-      required: [true, 'Please provide job requirement'],
+      required: [true, 'Please provide job requirements'],
     },
+
     vacancy: {
       type: String,
       required: [true, 'Please provide your job vacancy number'],
+    },
+    experience: {
+      type: String,
+      required: [true, 'Please provide job experience'],
     },
     status: {
       type: String,

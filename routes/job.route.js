@@ -37,6 +37,6 @@ router
 router
   .route('/job/:id')
   .get(jobController.getJobById)
-  .patch(verifyToken, authorization('hiring-manager'), jobController.updateJob);
+  .patch(verifyToken, authorization('employee'), jobController.updateJob);
 
 module.exports = router;
