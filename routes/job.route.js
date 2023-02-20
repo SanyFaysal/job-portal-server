@@ -13,7 +13,7 @@ router
 
 router
   .route('/job/apply/:id')
-  .post(
+  .patch(
     verifyToken,
     authorization('candidate'),
     checkApplyExpire,

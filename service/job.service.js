@@ -17,11 +17,47 @@ exports.getJobByIdService = async (id) => {
     .populate('applicants');
   return result;
 };
-exports.getJobsService = async (filter, sortJob) => {
-  const result = await Job.find({}).where(filter).sort(sortJob.sortBy)
-    .populate('applicants')
-    .populate('postedBy.id');
-  return result;
+exports.getJobsService = async (sort, queries) => {
+  console.log(sort);
+  if (!sort) {
+    const result = await Job.find({})
+      // .where(filter).sort(sortJob.sortBy)
+      .skip(queries.skip)
+      .limit(queries.limit)
+      .populate('applicants')
+      .populate('postedBy.id');
+
+    const total = await Job.countDocuments(result);
+    const page = Math.ceil(total / queries.limit);
+    return { page, result, total };
+  }
+  if (sort === 'newToOld') {
+    const result = await Job.find({})
+      // .where(filter)
+      .sort({ createdAt: -1 })
+      .skip(queries.skip)
+      .limit(queries.limit)
+      .populate('applicants')
+      .populate('postedBy.id');
+
+    const total = await Job.countDocuments(result);
+    const page = Math.ceil(total / queries.limit);
+    return { page, result, total };
+  }
+  if (sort === 'oldToNew') {
+    const result = await Job.find({})
+      // .where(filter)
+      .sort({ createdAt: 1 })
+      .skip(queries.skip)
+      .limit(queries.limit)
+      .populate('applicants')
+      .populate('postedBy.id');
+
+    const total = await Job.countDocuments(result);
+    const page = Math.ceil(total / queries.limit);
+    return { page, result, total };
+  }
+
 };
 exports.getManagerJobService = async (employeeId) => {
   const result = await Job.find({ 'postedBy.id': employeeId }).populate(

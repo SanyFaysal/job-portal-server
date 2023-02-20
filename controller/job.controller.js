@@ -52,28 +52,38 @@ exports.getJobById = async (req, res) => {
 };
 exports.getJobs = async (req, res) => {
   try {
-    const { sort, ...filter } = req.query;
-    const salaryRangeQuery = filter?.salary;
-    const sortJob = {};
-    if (salaryRangeQuery) {
-      const salaryRange = { salary: salaryRangeQuery };
-      const filterBySalaryStringify = JSON.stringify(salaryRange);
-      let filterBySalary = filterBySalaryStringify.replace(
-        /\b(lt|gt)\b/g,
-        (match) => `$${match}`
-      );
-      filterBySalary = JSON.parse(filterBySalary);
-      filter.salary = filterBySalary.salary;
-    }
-    if (sort) {
-      sortJob.sortBy = sort.split(',').join(' ');
-    }
+    const { sort } = req.query;
+    // console.log(sort);
+    // const salaryRangeQuery = filter?.salary;
+    // const sortJob = {};
+    // if (salaryRangeQuery) {
+    //   const salaryRange = { salary: salaryRangeQuery };
+    //   const filterBySalaryStringify = JSON.stringify(salaryRange);
+    //   let filterBySalary = filterBySalaryStringify.replace(
+    //     /\b(lt|gt)\b/g,
+    //     (match) => `$${match}`
+    //   );
+    //   filterBySalary = JSON.parse(filterBySalary);
+    //   filter.salary = filterBySalary.salary;
+    // }
+    // if (sort) {
+    //   sortJob.sortBy = sort.split(',').join(' ');
+    // }
+    let queries = {};
 
-    const jobs = await getJobsService(filter, sortJob);
+    const { page = 1, limit = 5 } = req.query;
+    console.log({ page, limit });
+    // queries.filter = filter;
+    const skip = (page - 1) * parseInt(limit);
+    queries.skip = skip;
+    queries.limit = parseInt(limit);
+    const jobs = await getJobsService(sort, queries);
     res.status(200).json({
       status: 'Success',
       message: 'Successfully get all job',
-      data: jobs,
+      data: jobs.result,
+      page: jobs.page,
+      total: jobs.total,
     });
   } catch (error) {
     res.status(400).json({
@@ -154,7 +164,7 @@ exports.applyJob = async (req, res) => {
     const { id: jobId } = req.params;
     const candidateId = req.user._id;
     const result = await applyJobService(jobId, candidateId);
-
+    console.log(result);
     res.status(200).json({
       status: 'Success',
       message: 'Applied successful',
