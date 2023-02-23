@@ -10,6 +10,10 @@ exports.findUserByEmailService = async (email) => {
 
   return result;
 };
+exports.getCandidateByIdService = async (id) => {
+  const result = await User.findOne({ _id: id }).select('-password')
+  return result;
+};
 exports.registerUserService = async (id, data) => {
 
   const result = await User.updateOne({ _id: id }, { $set: data });

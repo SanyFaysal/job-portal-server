@@ -10,7 +10,7 @@ exports.checkIsOwner = async (req, res, next) => {
     const { id } = req.params;
 
     const findJob = await getJobByIdService(id);
-    console.log(findJob.postedBy.id._id);
+
 
     if (findJob.postedBy.id._id.equals(employeeId)) {
       return next();

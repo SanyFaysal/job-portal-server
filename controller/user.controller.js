@@ -5,6 +5,7 @@ const {
   getUserDetailsByIdService,
   updateCandidateRoleService,
   registerUserService,
+  getCandidateByIdService,
 } = require('../service/user.service');
 const { generateToken } = require('../utils/token');
 
@@ -110,6 +111,22 @@ exports.getUsers = async (req, res) => {
       status: 'Success',
       message: 'Successfully get all the data',
       data: users,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      error: error.message,
+    });
+  }
+};
+exports.getCandidate = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const candidate = await getCandidateByIdService(id);
+    res.status(200).json({
+      status: 'Success',
+      message: 'Successfully get the data',
+      data: candidate,
     });
   } catch (error) {
     res.status(400).json({

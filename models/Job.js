@@ -57,7 +57,17 @@ const jobSchema = mongoose.Schema(
     },
     experience: {
       type: String,
-      required: [true, 'Please provide job experience'],
+      required: [true, 'Please provide experience '],
+      enum: {
+        values: [
+          'fresher',
+          '1 year experience',
+          '2 - 3 years experience',
+          '3 - 5 years experience',
+          '5 year + experience'
+        ],
+        message: " Experience Can't be {VALUE}",
+      },
     },
     status: {
       type: String,
@@ -69,9 +79,17 @@ const jobSchema = mongoose.Schema(
     },
     employmentType: {
       type: String,
-      required: [true, 'Please provide job type'],
+      required: [true, 'Please provide employment type'],
       enum: {
         values: ['remote', 'on-site', 'hybrid'],
+        message: " Job type must be remote/ on-site. Can't be {VALUE}",
+      },
+    },
+    jobType: {
+      type: String,
+      required: [true, 'Please provide job type'],
+      enum: {
+        values: ['fullTime', 'partTime', 'freelance'],
         message: " Job type must be remote/ on-site. Can't be {VALUE}",
       },
     },

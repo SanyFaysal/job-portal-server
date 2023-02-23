@@ -17,46 +17,60 @@ exports.getJobByIdService = async (id) => {
     .populate('applicants');
   return result;
 };
-exports.getJobsService = async (sort, queries) => {
-  console.log(sort);
-  if (!sort) {
-    const result = await Job.find({})
-      // .where(filter).sort(sortJob.sortBy)
-      .skip(queries.skip)
-      .limit(queries.limit)
-      .populate('applicants')
-      .populate('postedBy.id');
+exports.getJobsService = async (sortBy, queries, filter) => {
 
-    const total = await Job.countDocuments(result);
-    const page = Math.ceil(total / queries.limit);
-    return { page, result, total };
-  }
-  if (sort === 'newToOld') {
-    const result = await Job.find({})
-      // .where(filter)
-      .sort({ createdAt: -1 })
-      .skip(queries.skip)
-      .limit(queries.limit)
-      .populate('applicants')
-      .populate('postedBy.id');
 
-    const total = await Job.countDocuments(result);
-    const page = Math.ceil(total / queries.limit);
-    return { page, result, total };
-  }
-  if (sort === 'oldToNew') {
-    const result = await Job.find({})
-      // .where(filter)
-      .sort({ createdAt: 1 })
-      .skip(queries.skip)
-      .limit(queries.limit)
-      .populate('applicants')
-      .populate('postedBy.id');
+  const result = await Job.find({
+    "$or": [
+      { "jobTitle": { $regex: filter.jobTitle } },
+      { "jobType": { $regex: filter.jobType } },
+      { "experience": { $regex: filter.experience } }
+    ]
+  })
+    .sort({ createdAt: sortBy })
+    .skip(queries.skip)
+    .limit(queries.limit)
+    .populate('applicants')
+    .populate('postedBy.id');
+  const total = await Job.countDocuments(result);
+  const totalFound = await Job.find({
+    "$or": [
+      { "jobTitle": { $regex: filter.jobTitle } },
+      { "jobType": { $regex: filter.jobType } },
+      { "experience": { $regex: filter.experience } }
+    ]
+  }).count();
 
-    const total = await Job.countDocuments(result);
-    const page = Math.ceil(total / queries.limit);
-    return { page, result, total };
-  }
+  const page = Math.ceil(total / queries.limit);
+  const pageFound = Math.ceil(totalFound / queries.limit);
+
+  return { page, pageFound, result, total, totalFound };
+
+  //   const result = await Job.find({})
+  //     // .where(filter)
+  //     .sort({ createdAt: -1 })
+  //     .skip(queries.skip)
+  //     .limit(queries.limit)
+  //     .populate('applicants')
+  //     .populate('postedBy.id');
+
+  //   const total = await Job.countDocuments(result);
+  //   const page = Math.ceil(total / queries.limit);
+  //   return { page, result, total };
+  // }
+  // if (sort === 'oldToNew') {
+  //   const result = await Job.find({})
+  //     // .where(filter)
+  //     .sort({ createdAt: 1 })
+  //     .skip(queries.skip)
+  //     .limit(queries.limit)
+  //     .populate('applicants')
+  //     .populate('postedBy.id');
+
+  //   const total = await Job.countDocuments(result);
+  //   const page = Math.ceil(total / queries.limit);
+  //   return { page, result, total };
+  // }
 
 };
 exports.getManagerJobService = async (employeeId) => {

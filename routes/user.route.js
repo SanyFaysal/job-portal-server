@@ -11,6 +11,7 @@ router.get('/me', verifyToken, userController.getMe);
 
 router
   .route('/candidate/:id')
+  .get(authorization('employee'),)
   .patch(
     verifyToken,
     authorization('admin'),
