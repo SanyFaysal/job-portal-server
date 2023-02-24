@@ -14,7 +14,9 @@ exports.createJobService = async (data, hiringManager) => {
 exports.getJobByIdService = async (id) => {
   const result = await Job.findOne({ _id: id })
     .populate('postedBy.id')
-    .populate('applicants');
+    .populate('applicants')
+    .populate('queries.question.quesBy')
+    .populate('queries.answer.ansBy');
   return result;
 };
 exports.getJobsService = async (sortBy, queries, filter) => {
@@ -105,4 +107,11 @@ exports.applyJobService = async (jobId, candidateId) => {
   );
 
   return { updateJob, updateCandidate };
+};
+
+
+exports.createCommentService = async (id, data) => {
+  const result = await Job.updateOne({ _id: id }, { $push: { queries: data } });
+  console.log(result);
+  return result;
 };

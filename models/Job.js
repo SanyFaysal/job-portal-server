@@ -126,6 +126,28 @@ const jobSchema = mongoose.Schema(
         ref: 'User',
       },
     ],
+
+    queries: [
+      {
+        question: {
+          qus: String,
+          quesBy: {
+            type: ObjectId,
+            ref: 'User',
+          }
+        },
+        answer: [
+          {
+            ans: String,
+            ansBy: {
+              type: ObjectId,
+              ref: 'User'
+            }
+          }
+        ]
+
+      }
+    ]
   },
   {
     timeStamps: { createdAt: true, updatedAt: false }

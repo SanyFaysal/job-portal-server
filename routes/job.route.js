@@ -19,6 +19,10 @@ router
     checkApplyExpire,
     jobController.applyJob
   );
+router
+  .route('/job/comment/:id')
+  .patch(verifyToken, authorization('candidate'), jobController.createComment)
+
 
 router
   .route('/employee/jobs')

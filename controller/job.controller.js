@@ -8,6 +8,7 @@ const {
   getManagerJobDetailsByIdService,
   getManagerJobByIdService,
   deleteJobService,
+  createCommentService,
 } = require('../service/job.service');
 
 exports.createJob = async (req, res) => {
@@ -177,6 +178,28 @@ exports.applyJob = async (req, res) => {
     res.status(200).json({
       status: 'Success',
       message: 'Applied successful',
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      error: error.message,
+    });
+  }
+};
+
+
+
+exports.createComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+
+    const jobs = await createCommentService(id, data);
+
+    res.status(200).json({
+      status: 'Success',
+      message: 'Successfully get all job',
+      data: jobs,
     });
   } catch (error) {
     res.status(400).json({
