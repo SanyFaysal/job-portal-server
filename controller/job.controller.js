@@ -9,6 +9,7 @@ const {
   getManagerJobByIdService,
   deleteJobService,
   createCommentService,
+  createAnswerService,
 } = require('../service/job.service');
 
 exports.createJob = async (req, res) => {
@@ -193,9 +194,7 @@ exports.createComment = async (req, res) => {
   try {
     const { id } = req.params;
     const data = req.body;
-
     const jobs = await createCommentService(id, data);
-
     res.status(200).json({
       status: 'Success',
       message: 'Successfully get all job',
@@ -208,3 +207,22 @@ exports.createComment = async (req, res) => {
     });
   }
 };
+
+exports.createAnswer = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    console.log({ id, data });
+    const jobs = await createAnswerService(id, data);
+    res.status(200).json({
+      status: 'Success',
+      message: 'Successfully get all job',
+      data: jobs,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      error: error.message,
+    });
+  }
+}

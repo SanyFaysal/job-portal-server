@@ -22,6 +22,7 @@ router
 router
   .route('/job/comment/:id')
   .patch(verifyToken, authorization('candidate'), jobController.createComment)
+  .post(jobController.createAnswer)
 
 
 router

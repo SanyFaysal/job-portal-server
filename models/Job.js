@@ -131,21 +131,29 @@ const jobSchema = mongoose.Schema(
       {
         question: {
           qus: String,
+          createdAt: {
+            type: Date,
+            default: Date.now()
+          },
           quesBy: {
             type: ObjectId,
             ref: 'User',
-          }
+          },
+
         },
         answer: [
           {
             ans: String,
+            createdAt: {
+              type: Date,
+              default: Date.now()
+            },
             ansBy: {
               type: ObjectId,
               ref: 'User'
             }
           }
         ]
-
       }
     ]
   },
