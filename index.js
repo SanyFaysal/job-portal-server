@@ -8,16 +8,16 @@ const app = require('./app');
 //   console.log(`Database is connected successfuly`.blue.bold);
 // });
 
-// try {
+try {
 
-//   mongoose.connect(
-//     process.env.DATABASE,
-//     { useNewUrlParser: true, useUnifiedTopology: true },
-//     () => console.log(` Mongoose is connected`.blue.bold)
-//   );
-// } catch (e) {
-//   console.log(`could not connect`.red.bold);
-// }
+  mongoose.connect(
+    process.env.DATABASE,
+    { useNewUrlParser: true, useUnifiedTopology: true },
+    () => console.log(` Mongoose is connected`.blue.bold)
+  );
+} catch (e) {
+  console.log(`could not connect`.red.bold);
+}
 
 // server
 const port = process.env.PORT || 8080;
@@ -27,6 +27,3 @@ app.listen(port, () => {
 });
 
 
-app.get('/', (req, res) => {
-  res.send('Route is working! YaY!');
-});
