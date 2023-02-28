@@ -10,9 +10,9 @@ const jobRoute = require('./routes/job.route');
 const userRoute = require('./routes/user.route');
 
 // routes
-app.get('/', (req, res) => {
-  res.send('Route is working! YaY!');
-});
+// app.get('/', (req, res) => {
+//   res.send('Route is working! YaY!');
+// });
 
 app.use('/api/v1', jobRoute);
 app.use('/api/v1/user', userRoute);
