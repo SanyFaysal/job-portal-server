@@ -45,7 +45,7 @@ exports.getJobsService = async (sortBy, queries, filter) => {
 
   const page = Math.ceil(total / queries.limit);
   const pageFound = Math.ceil(totalFound / queries.limit);
-
+  console.log({ page, pageFound, result, total, totalFound });
   return { page, pageFound, result, total, totalFound };
 
   //   const result = await Job.find({})

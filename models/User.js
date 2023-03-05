@@ -59,7 +59,7 @@ const userSchema = mongoose.Schema(
       type: String,
       default: '',
       enum: {
-        values: ['candidate', 'hiring-manager', 'admin', ''],
+        values: ['candidate', 'employee', 'admin', ''],
         message: "{VALUE} can't be a role",
       },
     },

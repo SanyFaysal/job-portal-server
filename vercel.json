@@ -2,14 +2,26 @@
     "version": 2,
     "builds": [
         {
-            "src": "./index.js",
+            "src": "index.js",
             "use": "@vercel/node"
         }
     ],
     "routes": [
         {
+            "src": "/api/v1/job",
+            "dest": "/api/v1/job.route.js"
+        },
+        {
+            "src": "/api/v1/user",
+            "dest": "/api/v1/user.route.js"
+        },
+        {
             "src": "/(.*)",
-            "dest": "/"
+            "dest": "/index.js"
         }
-    ]
+    ],
+    "env": {
+        "DATABASE": "mongodb+srv://dbUser:Tucx0o8ZZNO1VtjB@cluster0.lxq49xx.mongodb.net/?retryWrites=true&w=majority",
+        "TOKEN_SECRET": "c606f4a6836401aeca81d4c5d3966c00233dd5dfd211d6c684c2e741076f7af817f7585985199a4d86dc47a30e618da53d5f8ebc635fa23f51bf94f045f104f8"
+    }
 }
