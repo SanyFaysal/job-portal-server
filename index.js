@@ -4,21 +4,21 @@ const colors = require('colors');
 
 const app = require('./app');
 
-// mongoose.connect(process.env.DATABASE).then(() => {
-//   console.log(`Database is connected successfuly`.blue.bold);
-// });
+mongoose.connect(process.env.DATABASE).then(() => {
+  console.log(`Database is connected successfuly`.blue.bold);
+});
 
-try {
+// try {
 
-  mongoose.connect(
-    process.env.DATABASE,
-    { useNewUrlParser: true, useUnifiedTopology: true },
-    () => console.log(` Mongoose is connected`.blue.bold))
+//   mongoose.connect(
+//    process.env.DATABASE,
+//      { useNewUrlParser: true, useUnifiedTopology: true },
+//     () => console.log(` Mongoose is connected`.blue.bold))
 
 
-} catch (e) {
-  console.log(`could not connect`.red.bold);
-}
+// } catch (e) {
+//   console.log(`could not connect`.red.bold);
+// }
 
 // server
 const port = process.env.PORT || 8080;
