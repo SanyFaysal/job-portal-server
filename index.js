@@ -11,7 +11,7 @@ const app = require('./app');
 try {
 
   mongoose.connect(
-    process.env.DATABASE,
+    `${process.env.DATABASE}`,
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => console.log(` Mongoose is connected`.blue.bold))
 
