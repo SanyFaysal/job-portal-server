@@ -14,7 +14,7 @@ try {
       process.env.DATABASE,
       { useNewUrlParser: true, useUnifiedTopology: true },
       () => console.log(` Mongoose is connected`.blue.bold))
-  }, 60000)
+  }, 80000)
 
 } catch (e) {
   console.log(`could not connect`.red.bold);
