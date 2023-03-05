@@ -9,12 +9,13 @@ const app = require('./app');
 // });
 
 try {
+  setTimeout(function () {
+    mongoose.connect(
+      process.env.DATABASE,
+      { useNewUrlParser: true, useUnifiedTopology: true },
+      () => console.log(` Mongoose is connected`.blue.bold))
+  }, 60000)
 
-  mongoose.connect(
-    process.env.DATABASE,
-    { useNewUrlParser: true, useUnifiedTopology: true },
-    () => console.log(` Mongoose is connected`.blue.bold)
-  );
 } catch (e) {
   console.log(`could not connect`.red.bold);
 }
