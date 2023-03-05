@@ -103,143 +103,143 @@ exports.getJobs = async (req, res) => {
       error: error.message,
     });
   }
-  exports.getAllJobs = async (req, res) => {
-    try {
+}
+exports.getAllJobs = async (req, res) => {
+  try {
 
-      const jobs = await getAllJobsService();
-      res.status(200).json({
-        status: 'Success',
-        message: 'Successfully get all job',
-        data: jobs
-      });
-    } catch (error) {
-      res.status(400).json({
-        status: 'failed',
-        error: error.message,
-      });
-    }
-  };
-  exports.getManagerJob = async (req, res) => {
-    try {
-      const employeeId = req.user._id;
-      const results = await getManagerJobService(employeeId);
-      res.status(200).json({
-        status: 'Success',
-        message: 'Successfully get all of your job posts',
-        data: results,
-      });
-    } catch (error) {
-      res.status(400).json({
-        status: 'failed',
-        error: error.message,
-      });
-    }
-  };
-  exports.getManagerJobById = async (req, res) => {
-    try {
-      const { _id: managerId } = req.user;
-      const { id: jobId } = req.params;
-      const results = await getManagerJobByIdService(managerId, jobId);
-      res.status(200).json({
-        status: 'Success',
-        message: 'Successfully get details',
-        results,
-      });
-    } catch (error) {
-      res.status(400).json({
-        status: 'failed',
-        error: error.message,
-      });
-    }
-  };
-  exports.updateJob = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const data = req.body;
-      const jobs = await updateJobService(id, data);
+    const jobs = await getAllJobsService();
+    res.status(200).json({
+      status: 'Success',
+      message: 'Successfully get all job',
+      data: jobs
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      error: error.message
+    });
+  }
+};
+exports.getManagerJob = async (req, res) => {
+  try {
+    const employeeId = req.user._id;
+    const results = await getManagerJobService(employeeId);
+    res.status(200).json({
+      status: 'Success',
+      message: 'Successfully get all of your job posts',
+      data: results,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      error: error.message,
+    });
+  }
+};
+exports.getManagerJobById = async (req, res) => {
+  try {
+    const { _id: managerId } = req.user;
+    const { id: jobId } = req.params;
+    const results = await getManagerJobByIdService(managerId, jobId);
+    res.status(200).json({
+      status: 'Success',
+      message: 'Successfully get details',
+      results,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      error: error.message,
+    });
+  }
+};
+exports.updateJob = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    const jobs = await updateJobService(id, data);
 
-      res.status(200).json({
-        status: 'Success',
-        message: 'Successfully get all job',
-        data: jobs,
-      });
-    } catch (error) {
-      res.status(400).json({
-        status: 'failed',
-        error: error.message,
-      });
-    }
-  };
-  exports.deleteJob = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const result = await deleteJobService(id);
-      res.status(200).json({
-        status: 'Success',
-        message: 'Delete successful',
-      });
-    } catch (error) {
-      res.status(400).json({
-        status: 'failed',
-        error: error.message,
-      });
-    }
-  };
+    res.status(200).json({
+      status: 'Success',
+      message: 'Successfully get all job',
+      data: jobs,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      error: error.message,
+    });
+  }
+};
+exports.deleteJob = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await deleteJobService(id);
+    res.status(200).json({
+      status: 'Success',
+      message: 'Delete successful',
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      error: error.message,
+    });
+  }
+};
 
-  exports.applyJob = async (req, res) => {
-    try {
-      const { id: jobId } = req.params;
-      const candidateId = req.user._id;
-      const result = await applyJobService(jobId, candidateId);
+exports.applyJob = async (req, res) => {
+  try {
+    const { id: jobId } = req.params;
+    const candidateId = req.user._id;
+    const result = await applyJobService(jobId, candidateId);
 
-      res.status(200).json({
-        status: 'Success',
-        message: 'Applied successful',
-      });
-    } catch (error) {
-      res.status(400).json({
-        status: 'failed',
-        error: error.message,
-      });
-    }
-  };
+    res.status(200).json({
+      status: 'Success',
+      message: 'Applied successful',
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      error: error.message,
+    });
+  }
+};
 
 
 
-  exports.createComment = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const data = req.body;
-      const jobs = await createCommentService(id, data);
-      res.status(200).json({
-        status: 'Success',
-        message: 'Successfully get all job',
-        data: jobs,
-      });
-    } catch (error) {
-      res.status(400).json({
-        status: 'failed',
-        error: error.message,
-      });
-    }
-  };
+exports.createComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    const jobs = await createCommentService(id, data);
+    res.status(200).json({
+      status: 'Success',
+      message: 'Successfully get all job',
+      data: jobs,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      error: error.message,
+    });
+  }
+};
 
-  exports.createAnswer = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const data = req.body;
-      console.log({ id, data });
-      const jobs = await createAnswerService(id, data);
-      res.status(200).json({
-        status: 'Success',
-        message: 'Successfully get all job',
-        data: jobs,
-      });
-    } catch (error) {
-      res.status(400).json({
-        status: 'failed',
-        error: error.message,
-      });
-    }
+exports.createAnswer = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    console.log({ id, data });
+    const jobs = await createAnswerService(id, data);
+    res.status(200).json({
+      status: 'Success',
+      message: 'Successfully get all job',
+      data: jobs,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      error: error.message,
+    });
   }
 }
