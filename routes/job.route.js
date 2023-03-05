@@ -10,7 +10,9 @@ router
   .route('/jobs')
   .get(jobController.getJobs)
   .post(verifyToken, authorization('employee'), jobController.createJob);
-
+router
+  .route('/all-jobs')
+  .get(jobController.getAllJobs)
 router
   .route('/job/apply/:id')
   .patch(

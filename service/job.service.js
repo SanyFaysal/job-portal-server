@@ -75,6 +75,17 @@ exports.getJobsService = async (sortBy, queries, filter) => {
   // }
 
 };
+exports.getAllJobsService = async () => {
+
+
+  const result = await Job.find({})
+
+
+  return result;;
+
+
+
+};
 exports.getManagerJobService = async (employeeId) => {
   const result = await Job.find({ 'postedBy.id': employeeId }).populate(
     'applicants'
