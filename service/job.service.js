@@ -29,7 +29,7 @@ exports.getJobsService = async (sortBy, queries, filter) => {
       .populate("postedBy.id");
     const total = await Job.countDocuments(result);
     const page = Math.ceil(total / queries.limit);
-    const pageFound = Math.ceil(totalFound / queries.limit);
+    const pageFound = Math.ceil(total / queries.limit);
     return { page, pageFound, result, total, totalFound: total };
   }
   const result = await Job.find({
