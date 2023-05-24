@@ -136,6 +136,6 @@ exports.createAnswerService = async (id, data) => {
     { _id: id, "queries._id": questionId }, // filter to find the document and the product to update
     { $push: { "queries.$.answer": answer } } // update the claims array for the matching product using the positional operator '$'
   );
-  console.log(result);
+
   return result;
 };
