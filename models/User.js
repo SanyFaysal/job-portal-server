@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const validator = require('validator');
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const validator = require("validator");
 
 const userSchema = mongoose.Schema(
   {
@@ -9,21 +9,21 @@ const userSchema = mongoose.Schema(
 
       trim: true,
       lowercase: true,
-      minLength: [3, 'Name is too small'],
-      maxLength: [100, 'Name is too long'],
+      minLength: [3, "Name is too small"],
+      maxLength: [100, "Name is too long"],
     },
     email: {
       type: String,
       required: true,
       unique: true,
       lowercase: true,
-      validate: [validator.isEmail, 'Please provide a valid email'],
+      validate: [validator.isEmail, "Please provide a valid email"],
     },
     gender: String,
     password: {
       type: String,
       required: true,
-      message: 'Please enter a password',
+      message: "Please enter a password",
     },
 
     contactNumber: {
@@ -31,16 +31,17 @@ const userSchema = mongoose.Schema(
 
       validate: [
         validator.isMobilePhone,
-        'Please provide a valid phone number',
+        "Please provide a valid phone number",
       ],
     },
     dob: {
       type: Date,
-      validate: [validator.isDate, 'Please provide a date'],
+      validate: [validator.isDate, "Please provide a date"],
     },
     bio: String,
     address: String,
     city: String,
+    country: String,
     pastExperience: {
       type: String,
     },
@@ -49,24 +50,24 @@ const userSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      default: 'active',
+      default: "active",
       enum: {
-        values: ['active', 'in-active', 'blocked'],
+        values: ["active", "in-active", "blocked"],
         message: "{VALUE} can't be a status",
       },
     },
     role: {
       type: String,
-      default: '',
+      default: "",
       enum: {
-        values: ['candidate', 'employee', 'admin', ''],
+        values: ["candidate", "employee", "admin", ""],
         message: "{VALUE} can't be a role",
       },
     },
     applications: [
       {
         type: Object,
-        ref: 'Job',
+        ref: "Job",
       },
     ],
     company: {
@@ -76,14 +77,14 @@ const userSchema = mongoose.Schema(
       companyWebSite: String,
       employeeRange: String,
       roleInCompany: String,
-    }
+    },
   },
   {
     timeStamps: true,
   }
 );
 
-userSchema.pre('save', function (next) {
+userSchema.pre("save", function (next) {
   const password = this.password;
   const hash = bcrypt.hashSync(password);
   this.password = hash;
@@ -96,6 +97,6 @@ userSchema.methods.comparePassword = function (password, hash) {
   return isValidPassword;
 };
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

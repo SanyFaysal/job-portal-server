@@ -1,0 +1,18 @@
+const Blog = require("../models/Blog");
+
+exports.createBlogService = async (data) => {
+  const result = await Blog.create(data);
+  return result;
+};
+exports.getAllBlogsService = async () => {
+  const result = await Blog.find({}).populate("author", "fullName");
+  return result;
+};
+exports.getSingleBlogService = async (blogId) => {
+  console.log(blogId);
+  const result = await Blog.findOne({ _id: blogId }).populate(
+    "author",
+    "fullName"
+  );
+  return result;
+};
