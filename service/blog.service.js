@@ -16,3 +16,10 @@ exports.getSingleBlogService = async (blogId) => {
   );
   return result;
 };
+exports.getMyBlogsService = async (userId) => {
+  const result = await Blog.find({ author: userId }).populate(
+    "author",
+    "fullName"
+  );
+  return result;
+};
