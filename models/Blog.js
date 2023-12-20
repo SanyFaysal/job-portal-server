@@ -66,6 +66,10 @@ const blogSchema = mongoose.Schema(
         ],
       },
     ],
+    featured: {
+      type: Boolean,
+      default: false,
+    },
     status: {
       type: String,
       default: "published",

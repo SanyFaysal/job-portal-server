@@ -23,3 +23,7 @@ exports.getMyBlogsService = async (userId) => {
   );
   return result;
 };
+exports.editSingleBlogService = async (blogId, data) => {
+  const result = await Blog.updateOne({ _id: blogId }, data);
+  return result;
+};

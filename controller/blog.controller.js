@@ -3,6 +3,7 @@ const {
   getAllBlogsService,
   getSingleBlogService,
   getMyBlogsService,
+  editSingleBlogService,
 } = require("../service/blog.service");
 
 exports.createBlog = async (req, res) => {
@@ -43,6 +44,24 @@ exports.getSingleBlog = async (req, res) => {
     res.status(200).json({
       status: "Success",
       message: "Successfully get  blog",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
+      error: error.message,
+    });
+  }
+};
+exports.editSingleBlog = async (req, res) => {
+  try {
+    const { blogId } = req.params;
+    const data = req.body;
+
+    const result = await editSingleBlogService(blogId, data);
+    res.status(200).json({
+      status: "Success",
+      message: "Successfully update  blog",
       data: result,
     });
   } catch (error) {
