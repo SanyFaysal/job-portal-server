@@ -1,4 +1,4 @@
-const Blog = require("../models/Blog");
+const Blog = require("./Blog");
 
 exports.createBlogService = async (data) => {
   const result = await Blog.create(data);
@@ -25,9 +25,5 @@ exports.getMyBlogsService = async (userId) => {
 };
 exports.editSingleBlogService = async (blogId, data) => {
   const result = await Blog.updateOne({ _id: blogId }, data);
-  return result;
-};
-exports.deleteBlogService = async (blogId) => {
-  const result = await Blog.deleteOne({ _id: blogId });
   return result;
 };
