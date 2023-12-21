@@ -20,7 +20,7 @@ exports.getJobByIdService = async (id) => {
   return result;
 };
 exports.getJobsService = async (sortBy, queries, filter) => {
-  if (!filter.jobTitle || !filter.jobType || !filter.experience) {
+  if (!filter.jobTitle && !filter.jobType && !filter.experience) {
     const result = await Job.find({})
       .sort({ createdAt: sortBy })
       .skip(queries.skip)
@@ -30,6 +30,7 @@ exports.getJobsService = async (sortBy, queries, filter) => {
     const total = await Job.countDocuments(result);
     const page = Math.ceil(total / queries.limit);
     const pageFound = Math.ceil(total / queries.limit);
+
     return { page, pageFound, result, total, totalFound: total };
   }
   const result = await Job.find({
@@ -44,6 +45,7 @@ exports.getJobsService = async (sortBy, queries, filter) => {
     .limit(queries.limit)
     .populate("applicants")
     .populate("postedBy.id");
+  console.log({ result });
   const total = await Job.countDocuments(result);
   const totalFound = await Job.find({
     $or: [

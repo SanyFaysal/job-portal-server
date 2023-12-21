@@ -70,6 +70,16 @@ const userSchema = mongoose.Schema(
         ref: "Job",
       },
     ],
+    projects: [
+      {
+        title: String,
+        duration: {
+          from: String,
+          till: String,
+        },
+        details: String,
+      },
+    ],
     company: {
       companyCategory: String,
       companyLocation: String,
