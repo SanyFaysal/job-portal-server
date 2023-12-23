@@ -23,6 +23,13 @@ router
     authorization("candidate"),
     userController.editClientProject
   );
+router
+  .route("/candidate/delete-project/:projectId")
+  .delete(
+    verifyToken,
+    authorization("candidate"),
+    userController.deleteClientProject
+  );
 
 router
   .route("/candidate/:id")

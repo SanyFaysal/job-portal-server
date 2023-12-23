@@ -52,3 +52,12 @@ exports.editClientProjectService = async (projectId, userId, data) => {
   );
   return result;
 };
+exports.deleteClientProjectService = async (projectId, userId) => {
+  console.log({ userId, projectId });
+  const result = await User.updateOne(
+    { _id: userId },
+    { $pull: { projects: { _id: projectId } } },
+    { new: true }
+  );
+  return result;
+};

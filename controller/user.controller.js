@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const {
   signupService,
   findUserByEmailService,
@@ -9,6 +10,7 @@ const {
   addClientProject,
   addClientProjectService,
   editClientProjectService,
+  deleteClientProjectService,
 } = require("../service/user.service");
 const { generateToken } = require("../utils/token");
 
@@ -224,11 +226,30 @@ exports.addClientProject = async (req, res) => {
 exports.editClientProject = async (req, res) => {
   try {
     const { projectId } = req.params;
+
     const { userId, ...data } = req.body;
     const update = await editClientProjectService(projectId, userId, data);
     res.status(200).json({
       status: "Success",
       message: "Successfully added project",
+      data: update,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
+      error: error.message,
+    });
+  }
+};
+exports.deleteClientProject = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+    const { _id } = req.user;
+    const userId = _id.toString();
+    const update = await deleteClientProjectService(projectId, userId);
+    res.status(200).json({
+      status: "Success",
+      message: "Successfully deleted project",
       data: update,
     });
   } catch (error) {
