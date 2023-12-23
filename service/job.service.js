@@ -86,6 +86,25 @@ exports.getJobsService = async (sortBy, queries, filter) => {
   //   return { page, result, total };
   // }
 };
+exports.getJobsHomeSearchService = async (queries, jobTitle) => {
+  if (jobTitle) {
+    const result = await Job.find({
+      $or: [
+        { jobTitle: { $regex: jobTitle, $options: "i" } },
+        { jobType: { $regex: jobTitle, $options: "i" } },
+        { experience: { $regex: jobTitle, $options: "i" } },
+      ],
+    })
+      .sort({ createdAt: 0 })
+      .skip(queries.skip)
+      .limit(queries.limit)
+      .populate("applicants")
+      .populate("postedBy.id");
+    console.log({ result });
+    return result;
+  }
+};
+
 exports.getAllJobsService = async () => {
   const result = await Job.find({});
 

@@ -11,6 +11,7 @@ const {
   createCommentService,
   createAnswerService,
   getAllJobsService,
+  getJobsHomeSearchService,
 } = require("../service/job.service");
 
 exports.createJob = async (req, res) => {
@@ -81,6 +82,29 @@ exports.getJobs = async (req, res) => {
       pageFound: jobs.pageFound,
       total: jobs.total,
       totalFound: jobs.totalFound,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
+      error: error.message,
+    });
+  }
+};
+exports.getJobsHomeSearch = async (req, res) => {
+  try {
+    const { jobTitle } = req.body;
+
+    const { page = 1, limit = 5 } = req.query;
+    const skip = (page - 1) * parseInt(limit);
+    let queries = {};
+    queries.skip = skip;
+    queries.limit = parseInt(limit);
+
+    const result = await getJobsHomeSearchService(queries, jobTitle);
+    res.status(200).json({
+      status: "Success",
+      message: "Successfully get all job",
+      data: result,
     });
   } catch (error) {
     res.status(400).json({
