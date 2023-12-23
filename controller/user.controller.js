@@ -6,8 +6,11 @@ const {
   updateCandidateRoleService,
   registerUserService,
   getCandidateByIdService,
-} = require('../service/user.service');
-const { generateToken } = require('../utils/token');
+  addClientProject,
+  addClientProjectService,
+  editClientProjectService,
+} = require("../service/user.service");
+const { generateToken } = require("../utils/token");
 
 exports.signup = async (req, res) => {
   try {
@@ -16,21 +19,21 @@ exports.signup = async (req, res) => {
     const isAvailableUser = await findUserByEmailService(email);
     if (isAvailableUser) {
       return res.status(404).json({
-        status: 'failed',
-        error: 'User already existed',
+        status: "failed",
+        error: "User already existed",
       });
     }
 
     const result = await signupService(data);
     const token = generateToken(result);
     res.status(200).json({
-      status: 'Success',
-      message: 'Signup successful',
+      status: "Success",
+      message: "Signup successful",
       token,
     });
   } catch (error) {
     res.status(400).json({
-      status: 'failed',
+      status: "failed",
       error: error.message,
     });
   }
@@ -41,8 +44,8 @@ exports.findUserByEmail = async (req, res) => {
 
     if (!email || !password) {
       return res.status(401).json({
-        status: 'failed',
-        error: 'Please give your credentials',
+        status: "failed",
+        error: "Please give your credentials",
       });
     }
 
@@ -50,8 +53,8 @@ exports.findUserByEmail = async (req, res) => {
 
     if (!user) {
       return res.status(401).json({
-        status: 'failed',
-        error: 'No result found with this email',
+        status: "failed",
+        error: "No result found with this email",
       });
     }
 
@@ -59,22 +62,22 @@ exports.findUserByEmail = async (req, res) => {
 
     if (!isValidPassword) {
       return res.status(401).json({
-        status: 'failed',
-        error: 'Password not matched',
+        status: "failed",
+        error: "Password not matched",
       });
     }
 
     const token = generateToken(user);
 
     res.status(200).json({
-      status: 'Success',
-      message: 'Successfully logged in',
+      status: "Success",
+      message: "Successfully logged in",
       data: user,
       token,
     });
   } catch (error) {
     res.status(400).json({
-      status: 'failed',
+      status: "failed",
       error: error.message,
     });
   }
@@ -86,19 +89,19 @@ exports.getMe = async (req, res) => {
     const result = await findUserByEmailService(email);
     if (!result) {
       return res.status(400).json({
-        status: 'failed',
-        error: 'Token is not verified',
+        status: "failed",
+        error: "Token is not verified",
       });
     }
 
     res.status(200).json({
-      status: 'Success',
-      message: 'successfully get data',
+      status: "Success",
+      message: "successfully get data",
       data: result,
     });
   } catch (error) {
     res.status(400).json({
-      status: 'failed',
+      status: "failed",
       error: error.message,
     });
   }
@@ -108,13 +111,13 @@ exports.getUsers = async (req, res) => {
     const { role } = req.params;
     const users = await getUsersService(role);
     res.status(200).json({
-      status: 'Success',
-      message: 'Successfully get all the data',
+      status: "Success",
+      message: "Successfully get all the data",
       data: users,
     });
   } catch (error) {
     res.status(400).json({
-      status: 'failed',
+      status: "failed",
       error: error.message,
     });
   }
@@ -124,13 +127,13 @@ exports.getCandidate = async (req, res) => {
     const { id } = req.params;
     const candidate = await getCandidateByIdService(id);
     res.status(200).json({
-      status: 'Success',
-      message: 'Successfully get the data',
+      status: "Success",
+      message: "Successfully get the data",
       data: candidate,
     });
   } catch (error) {
     res.status(400).json({
-      status: 'failed',
+      status: "failed",
       error: error.message,
     });
   }
@@ -143,14 +146,14 @@ exports.registerUser = async (req, res) => {
     const updateUser = await registerUserService(id, data);
 
     res.status(200).json({
-      status: 'Success',
-      message: 'Successfully registered',
+      status: "Success",
+      message: "Successfully registered",
       data: data,
       response: updateUser,
     });
   } catch (error) {
     res.status(400).json({
-      status: 'failed',
+      status: "failed",
       error: error.message,
     });
   }
@@ -161,19 +164,19 @@ exports.getUserDetailsById = async (req, res) => {
     const userDetails = await getUserDetailsByIdService(role, id);
     if (!userDetails) {
       return res.status(400).json({
-        status: 'failed',
+        status: "failed",
         error: `Couldn\'t find any ${role} with this id`,
       });
     }
 
     res.status(200).json({
-      status: 'Success',
-      message: 'Successfully get all the data',
+      status: "Success",
+      message: "Successfully get all the data",
       data: userDetails,
     });
   } catch (error) {
     res.status(400).json({
-      status: 'failed',
+      status: "failed",
       error: error.message,
     });
   }
@@ -185,18 +188,52 @@ exports.updateCandidateRole = async (req, res) => {
 
     if (!update.modifiedCount) {
       return res.status(400).json({
-        status: 'failed',
+        status: "failed",
         error: `Couldn\'t find any ${role} with this id`,
       });
     }
     res.status(200).json({
-      status: 'Success',
-      message: 'Successfully get all the data',
+      status: "Success",
+      message: "Successfully get all the data",
       data: update,
     });
   } catch (error) {
     res.status(400).json({
-      status: 'failed',
+      status: "failed",
+      error: error.message,
+    });
+  }
+};
+exports.addClientProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    const update = await addClientProjectService(id, data);
+    res.status(200).json({
+      status: "Success",
+      message: "Successfully added project",
+      data: update,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
+      error: error.message,
+    });
+  }
+};
+exports.editClientProject = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+    const { userId, ...data } = req.body;
+    const update = await editClientProjectService(projectId, userId, data);
+    res.status(200).json({
+      status: "Success",
+      message: "Successfully added project",
+      data: update,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
       error: error.message,
     });
   }

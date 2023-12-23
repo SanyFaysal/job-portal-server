@@ -37,3 +37,18 @@ exports.updateCandidateRoleService = async (id) => {
   );
   return userDetails;
 };
+exports.addClientProjectService = async (id, data) => {
+  const result = await User.updateOne(
+    { _id: id },
+    { $push: { projects: data } }
+  );
+  return result;
+};
+exports.editClientProjectService = async (projectId, userId, data) => {
+  const result = await User.updateOne(
+    { _id: userId, "projects._id": projectId },
+    { $set: { "projects.$": data } },
+    { new: true }
+  );
+  return result;
+};
