@@ -4,9 +4,8 @@ exports.createBlogService = async (data) => {
   const result = await Blog.create(data);
   return result;
 };
-exports.getAllBlogsService = async () => {
-  const result = await Blog.find({}).populate("author", "fullName");
-
+exports.getAllBlogsService = async (query) => {
+  const result = await Blog.find(query).populate("author", "fullName");
   return result;
 };
 exports.getSingleBlogService = async (blogId) => {

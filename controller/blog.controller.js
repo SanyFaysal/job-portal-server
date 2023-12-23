@@ -25,7 +25,18 @@ exports.createBlog = async (req, res) => {
 };
 exports.getAllBlogs = async (req, res) => {
   try {
-    const result = await getAllBlogsService();
+    let query = {};
+    const { searchTerm } = req.query;
+    if (searchTerm !== "undefined") {
+      query = {
+        $or: [
+          { title: { $regex: searchTerm, $options: "i" } },
+          { blog: { $regex: searchTerm, $options: "i" } },
+        ],
+      };
+    }
+
+    const result = await getAllBlogsService(query);
     res.status(200).json({
       status: "Success",
       message: "Successfully get all blogs",
